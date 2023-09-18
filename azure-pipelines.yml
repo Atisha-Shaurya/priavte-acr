@@ -21,19 +21,6 @@ variables:
 
 steps:
 - checkout: self
-
-- task: PowerShell@2
-  displayName: "Azure Login"
-  inputs:
-    targetType: "inline"
-    script: |
-      az login --service-principal -u "$(app id)" -p "$(app-secret)" -t "$(tenat id)"
-- task: PowerShell@2
-  displayName: "Set the subscription"
-  inputs:
-    targetType: "inline"
-    script: | 
-      az account set -s "$(subscription id)"    
       
 - script:  ls  
   displayName: 'Running ACR'
