@@ -1,0 +1,39 @@
+# publish pakage 
+
+trigger: none
+# - master
+pr: none
+
+parameters:
+  - name: ModuleName
+    displayName: 'Module Name'
+    default: "acr-demo"
+    type: string
+
+  - name: ModuleVersion
+    displayName: 'Module Version'
+    default: "0.0.2"
+    type: string 
+
+pool: Default 
+
+steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "ls command starts here"
+      ls $(Build.SourcesDirectorymodule)
+
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.SourcesDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: 'knolx/terraform'
+    vstsFeedPackagePublish: '${{ parameters.ModuleName }}'
+    versionOption: 'custom'
+    versionPublish: '${{ parameters.ModuleVersion }}'
+    packagePublishDescription: "ACR terraform package v0.0.1"
+    verbosity: 'Error'
+    publishedPackageVar: "acr-output"

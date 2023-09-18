@@ -1,0 +1,87 @@
+name: "demo-acr"
+
+trigger: none
+
+parameters:
+  - name: acr_name
+    type: string
+    default: "acrknolxdemo34232"
+    displayName: "ACR Name"
+    
+  - name: location
+    type: string
+    default: "UK South"
+    displayName: "ACR location"
+    
+pool: Default 
+  #vmImage: ubuntu-latest
+
+variables:
+  - group: New variable group
+steps:
+- task: PowerShell@2
+  displayName: "Azure Login"
+  inputs:
+    targetType: "inline"
+    script: |
+      az login --service-principal -u "$(app id)" -p "$(app-secret)" -t "$(tenat id)"
+- task: PowerShell@2
+  displayName: "Set the subscription"
+  inputs:
+    targetType: "inline"
+    script: | 
+      az account set -s "$(subscription id)"    
+      
+- script:  ls  
+  displayName: 'Running ACR'
+
+- task: DownloadPackage@1
+  inputs:
+              packageType: "upack"
+              feed: "knolx/terraform"
+              view: "local"
+              definition: "acr-demo"
+              version: "0.0.1"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+
+- task: PowerShell@2
+  displayName: "terraform init"
+  inputs:
+    targetType: "inline"
+    script: |
+     terraform init
+
+- task: PowerShell@2
+  inputs:
+    targetType: "inline"
+    script: |
+     terraform fmt
+  displayName: "terraform format" 
+
+- task: PowerShell@2
+  inputs:
+    targetType: "inline"
+    script: |
+     terraform validate
+  displayName: "validate the terraform code"
+
+- task: PowerShell@2
+  inputs:
+    targetType: "inline"
+    script: |
+     terraform plan
+  displayName: "terraform plan"
+ 
+- task: PowerShell@2
+  inputs:
+    targetType: "inline"
+    script: |
+     terraform apply -auto-approve
+  displayName: "terraform apply"
+
+- task: PowerShell@2
+  inputs:
+    targetType: "inline"
+    script: |
+     terraform destroy -auto-approve
+  displayName: "terraform destroy"
