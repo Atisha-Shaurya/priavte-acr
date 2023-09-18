@@ -16,9 +16,6 @@ parameters:
 pool: Default 
   #vmImage: ubuntu-latest
 
-variables:
-  - group: New variable group
-
 steps:
 - checkout: self
       
