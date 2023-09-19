@@ -18,7 +18,6 @@ variable "azure_resource_group" {
 variable "acr_name" {
   description = "Name of the Azure Container Registry"
   type = string
-  default = "testACRnewRegisTrytesting"
 }
 variable "acr_sku" {
   description = "SKU of the Azure Container Registry"
