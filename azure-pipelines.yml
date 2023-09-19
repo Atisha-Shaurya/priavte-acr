@@ -5,16 +5,15 @@ trigger: none
 parameters:
   - name: acr_name
     type: string
-    default: "acrwebinardemo34232"
+    default: "acrwebinardemo"
     displayName: "ACR Name"
     
   - name: location
     type: string
-    default: "UK South"
+    default: "eastus"
     displayName: "ACR location"
     
 pool: Default 
-  #vmImage: ubuntu-latest
 
 steps:
 - checkout: self
