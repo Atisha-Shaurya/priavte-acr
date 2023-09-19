@@ -13,7 +13,6 @@ variable "location" {
 variable "azure_resource_group" {
   description = "Name of the Azure resource group where resources will be provisioned"
   type = string
-  default = "acrTesting"
 }
 
 variable "acr_name" {
